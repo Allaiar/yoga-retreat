@@ -276,8 +276,8 @@
       </div>
       <section class="py-20">
         <h1 class="text-center font-semibold text-4xl">Testimonials</h1>
-        <div class="retreat-overview bg-[#5f728e] mt-5 px-4 sm:px-10 pb-10">
-          <Slider class="slider">
+        <div class="retreat-overview">
+          <Slider class="slider mt-5 px-4 sm:px-10 pb-10 bg-[#5f728e]">
             <div class="py-10 px-2 md:px-4 lg:px-6">
               <div class="w-full">
                 <p class="italic font-sans text-xl sm:text-2xl text-slate-200">
@@ -487,21 +487,46 @@
     ></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel/slick/slick.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <script type="text/javascript">
-        $(document).ready(function(){
-            $('.slider').slick({
-                dots: true,
-                infinite: true,
-                speed: 500,
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                autoplay: true,
-                autoplaySpeed: 3000,
-                adaptiveHeight: false,
-                arrows: false 
-            });
-        });
-    </script>
+      $(document).ready(function() {
+          $('.slider').slick({
+              dots: true,
+              infinite: true,
+              speed: 500,
+              slidesToShow: 1,
+              slidesToScroll: 1,
+              autoplay: true,
+              autoplaySpeed: 3000,
+              adaptiveHeight: true,
+              arrows: false 
+          });
+
+          function isElementInViewport(el) {
+              var rect = el.getBoundingClientRect();
+              return (
+                  rect.top >= 0 &&
+                  rect.left >= 0 &&
+                  rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                  rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+              );
+          }
+
+          $(window).on('scroll resize', function() {
+              if (isElementInViewport($('.slider')[0])) {
+                  $('.slider').slick('slickPlay');
+              } else {
+                  $('.slider').slick('slickPause');
+              }
+          });
+
+          // Initial check
+          if (!isElementInViewport($('.slider')[0])) {
+              $('.slider').slick('slickPause');
+          }
+      });
+  </script>
+
   </body>
   <style>
     * {
